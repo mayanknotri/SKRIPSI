@@ -33,7 +33,7 @@ def process():
 
     # Clusterizing process
     sch.dendrogram(sch.linkage(X, method='ward'))
-    plt.savefig("static/images/dendrogram.png")
+    plt.savefig(os.path.join('app/static/images', 'dendrogram.png'))
 
     # Modelling cluster
     sweet.get_cluster()
