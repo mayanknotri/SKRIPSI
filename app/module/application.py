@@ -32,12 +32,14 @@ def process():
     X = sweet.transform()
 
     # Clusterizing process
-    sch.dendrogram(sch.linkage(X, method='ward'))
-    plt.savefig(os.path.join('app/static/images', 'dendrogram.png'))
+    dendrogram = sch.dendrogram(sch.linkage(X, method='ward'))
 
     # Modelling cluster
     sweet.get_cluster()
 
     # Get plot for visualization data
-    sweet.plot()
-    return render_template("result.html", dendrogram="dendrogram.png", plot="plot.png")
+    plot = sweet.plot()
+
+    script, div = components(dendrogram)
+    script2, div2 = components(plot)
+    return render_template("result.html", div=div, div2=div2, script=script, script2=script2)

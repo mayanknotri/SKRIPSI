@@ -57,12 +57,14 @@ Slider Section Start
                     <div class="col-sm-6 col-xs-12">
                         <figure class="wow fadeInLeft animated animated" data-wow-duration="500ms" data-wow-delay="600ms" style="visibility: visible; animation-duration: 500ms; animation-delay: 600ms; animation-name: fadeInLeft;">
                             <div class="img-wrapper">
-                                <img src="static/images/dendrogram.png" class="img-responsive" alt="">
+                                {{ div | safe }}
+                                {{ script | safe }}
                             </div>
                         </figure>
                         <figure class="wow fadeInLeft animated animated" data-wow-duration="500ms" data-wow-delay="600ms" style="visibility: visible; animation-duration: 500ms; animation-delay: 600ms; animation-name: fadeInLeft;">
                             <div class="img-wrapper">
-                                <img src="static/images/plot.png" class="img-responsive" alt="">
+                                {{ div2 | safe }}
+                                {{ script2 | safe }}
                             </div>
                         </figure>
                     </div>
