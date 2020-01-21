@@ -2,6 +2,7 @@ from flask import render_template, request
 from app import app
 from app.module.sweet import Sweet
 from matplotlib import pyplot as plt
+from bokeh.embed import components
 import os
 import scipy.cluster.hierarchy as sch
 
@@ -32,14 +33,12 @@ def process():
     X = sweet.transform()
 
     # Clusterizing process
-    dendrogram = sch.dendrogram(sch.linkage(X, method='ward'))
+    sch.dendrogram(sch.linkage(X, method='ward'))
+    plt.savefig(os.path.join('app/static/images', 'dendrogram.png'))
 
     # Modelling cluster
     sweet.get_cluster()
 
     # Get plot for visualization data
     plot = sweet.plot()
-
-    script, div = components(dendrogram)
-    script2, div2 = components(plot)
-    return render_template("result.html", div=div, div2=div2, script=script, script2=script2)
+    return render_template("result.html")

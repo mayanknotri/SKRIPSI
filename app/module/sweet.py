@@ -82,4 +82,5 @@ class Sweet(object):
             scatter.append(plt.scatter(self.X[self.labels == i, 0], self.X[self.labels == i, 1], s=30, label=str(i)))
             legends.append("Cluster {}".format(i))
         plt.legend(scatter, legends, scatterpoints=1, loc='lower left', ncol=3, fontsize=20)
+        plt.savefig(os.path.join('app/static/images', 'plot.png'))
         return plt
