@@ -30,6 +30,8 @@ def process():
     global sweet
     # Transform dataset
     sweet.transform()
+
+    # Get Cluster
     sweet.get_cluster()
     df = sweet.get_group()
     print(sweet.cluster_names)
