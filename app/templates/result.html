@@ -53,20 +53,18 @@ Slider Section Start
                 <section class="cd-intro">
                     <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s" >
                     <span>Hasil Clustering</span>
-                    </h1>
-                    <div class="col-sm-6 col-xs-12">
-                        <figure class="wow fadeInLeft animated animated" data-wow-duration="500ms" data-wow-delay="600ms" style="visibility: visible; animation-duration: 500ms; animation-delay: 600ms; animation-name: fadeInLeft;">
-                            <div class="img-wrapper">
-                                {{ div | safe }}
-                                {{ script | safe }}
+                    </h1><br>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="table-responsive m-t-40" style="overflow: auto;height: 400px; color: black">
+                                    {% for table in tables %}
+                                        {{ table | safe }}
+                                    {% endfor %}
                             </div>
-                        </figure>
-                        <figure class="wow fadeInLeft animated animated" data-wow-duration="500ms" data-wow-delay="600ms" style="visibility: visible; animation-duration: 500ms; animation-delay: 600ms; animation-name: fadeInLeft;">
-                            <div class="img-wrapper">
-                                {{ div2 | safe }}
-                                {{ script2 | safe }}
-                            </div>
-                        </figure>
+                        </div>
+                        <div class="col-md-4">
+                            <canvas id="myChart" width="350" height="400"></canvas>
+                        </div>
                     </div>
                     </section>
                 </div>
@@ -120,5 +118,32 @@ Footer Section Start
 	================================================== -->
 	<!-- jquery -->
 	{% include "script.html" %}
+<script type="text/javascript">
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var labels = {{ clusterNames | safe }};
+    var dd = {{ countLabels }}
+    console.log(labels)
+    console.log(dd)
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of Votes',
+                data: {{ countLabels }},
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 206, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)',
+                    'rgb(255, 159, 64)'
+                ],
+            }]
+        },
+        options: {
+        }
+    });
+</script>
  	</body>
 </html>

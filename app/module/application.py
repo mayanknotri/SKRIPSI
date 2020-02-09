@@ -22,24 +22,16 @@ def upload():
 
     # Load dataset with Sweet library
     sweet = Sweet(file="app/tmp/dataset.xlsx", cluster=n_cluster)
-    return render_template("view_data.html", tables=[sweet.get_data().to_html(classes='table table-bordered')])
+    return render_template("view_data.html", tables=[sweet.get_data().to_html(classes='table table-bordered', index=False)])
 
 
 @app.route("/process", methods=["GET"])
 def process():
     global sweet
     # Transform dataset
-    X = sweet.transform()
-
-    # Clusterizing process
-    dendrogram = sch.dendrogram(sch.linkage(X, method='ward'))
-
-    # Modelling cluster
+    sweet.transform()
     sweet.get_cluster()
-
-    # Get plot for visualization data
-    plot = sweet.plot()
-
-    script, div = components(dendrogram)
-    script2, div2 = components(plot)
-    return render_template("result.html", div=div, div2=div2, script=script, script2=script2)
+    df = sweet.get_group()
+    print(sweet.cluster_names)
+    return render_template("result.html", tables=[df.to_html(classes='table table-bordered', index=False)],
+                           clusterNames=sweet.cluster_names, countLabels=sweet.countLabels)
