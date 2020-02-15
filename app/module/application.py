@@ -34,6 +34,9 @@ def process():
     # Get Cluster
     sweet.get_cluster()
     df = sweet.get_group()
-    print(sweet.cluster_names)
+
+    # Get detail cluster
+    list_df, list_cluster_label = sweet.get_result()
     return render_template("result.html", tables=[df.to_html(classes='table table-bordered', index=False)],
-                           clusterNames=sweet.cluster_names, countLabels=sweet.countLabels)
+                           clusterNames=sweet.cluster_names, countLabels=sweet.countLabels, n=len(list_cluster_label),
+                           list_df=list_df, list_cluster_label=list_cluster_label)

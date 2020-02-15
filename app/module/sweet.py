@@ -17,6 +17,7 @@ class Sweet(object):
                         'M038', 'M039', 'M040', 'M041', 'M042', 'M043', 'M044', 'M045', 'M046']
         #         # data.columns = ["Lantai", "Dinding", "Ventilasi", "Pagar", "Ruang Pelayanan", "Luas Area", "Penyuluhan Program Bank Sampah", "Tersedia Wdah Sesuai Pemilahan", "Jumlah Pengurus", "Pendidikan ketua", "Sistem Gaji", "Pengelola mengikuti Pelatihan", "Rekapitulasi Hasil Perolehan", "Pengumpulan Sampah Nasabah Terjadwal", "Jadwal Pengumpulan Sampah", "Pengumpulan Rutin", "Aktivitas Penjualan Sampah Nasabah", "Bank Sampah Memiliki Kerjasama", "Jumlah Pengempul Sampah yang Bekerjasama", "Kerjasama Dengan Industri Daur Ulang Sampah", "Dijual Semua ke pengepul atau industri daur ulang", "Dimanfaatkan untuk pembuatan produk adur ulang", "Proses Monitoring dan evaluasi", "Proses Monitoring", "Monitoring dan Evaluasi terhadap pengurangan atau peningkatan jumlah nasabah", "Monitoring dan evaluasi terhadap jumlah simpan uang nasabah yang tersimpan", "Hasil Monitoring dan Evaluasi Pengelolaan Bank Sampah Tercatat dengan baik", "Hasil Monitoring dan evaluasi pengelolan bank sampah dilaporkan kepada  pemerintah kota melalui Dinas Lingkungan Hidup", "Tidak lanjut berdasarkan hasil monitoring dan evaluasi", "Jumlah Nasabah", "Nasabah Awal yang Ktif", "Modal Awal", "Kondisi Rata-Rata Berat Sampah Per Bulan", "Rata-Rata Berat Sampah Per Bulan", "Rata-Rata Hasil Tabungan Nasabah", "Rata-Rata Jumlah Penambahan Nasabah", "Rata-Rata Waktu Maksimal Nasabah Baru Bertahan", "Ketentuan Aturan Hukum Sesuai Bentuk Bank Sampah", "Ketetapan Harga Beli Sampah", "Aktivitas Simpan-Pinjam", "Penetapan Jam Kerja", "Sistem Bagi Hasil Penjualan", "Ketentuan Jelas Mengenai Kondisi Sampah", "Ketentuan Jelas Mengenai Berat Minimum Sampah", "Ketentuan Jelas Mengenai Jenis Sampah ", "Tersedia Jasa Penjemputan Sampah"]
         self.garbages = [x for x in data['Garbage']]
+        self.data = data
         self.dataset = data.drop(['Garbage'], axis=1)
         self.cluster = cluster
         self.X = None
@@ -107,3 +108,23 @@ class Sweet(object):
                 data.extend([None] * (max_len - len_i))
             groupDict[f"Cluster {i}"] = data
         return pd.DataFrame(groupDict)
+
+    def get_result(self):
+        list_df = list()
+        self.data['Label'] = self.labels
+        list_cluster_label = list()
+        for i in range(self.cluster):
+            df = self.data[self.data['Label'] == i]
+            list_df.append(df)
+            list_cluster_label.append(Sweet.get_cluster_label(i))
+        return list_df, list_cluster_label
+
+    @staticmethod
+    def get_cluster_label(argument):
+        switcher = {
+            0: "Pengenalan",
+            1: "Tumbuh 1",
+            2: "Tumbuh 2",
+            3: "Berkembang"
+        }
+        return switcher.get(argument, f"Cluster {argument}")
